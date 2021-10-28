@@ -10,7 +10,7 @@ import {
     ELECTRON,
     REACT_NATIVE,
     UNKNOWN
-} from './browsers';
+} from './browsers.js';
 
 /**
  * Maps the names of the browsers from bowser to the internal names defined in
@@ -74,6 +74,11 @@ function _detectElectron() {
         return {
             name: ELECTRON,
             version
+        };
+    } else if (typeof window.JitsiMeetElectron !== 'undefined') {
+        return {
+            name: ELECTRON,
+            version: undefined
         };
     }
 }

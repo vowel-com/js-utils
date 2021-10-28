@@ -1,4 +1,4 @@
-import { BrowserDetection } from '../browser-detection';
+import BrowserDetection from '../browser-detection/BrowserDetection.js';
 
 // TODO: Move BrowserCapabilities from lib-jitsi-meet here and use the JSON
 // format for them.
@@ -113,7 +113,7 @@ export default class BrowserCapabilities {
     }
 
     /**
-     * Checks whether the browser supports incomming video.
+     * Checks whether the browser supports outgoing video.
      *
      * @returns {boolean}
      */
