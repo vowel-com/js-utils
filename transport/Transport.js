@@ -52,7 +52,7 @@ export default class Transport {
          * processed by any listener. They are later passed on every new
          * listener until they are processed.
          *
-         * @type {Set<Object>}
+         * @type {Set<CachedEventTuple>}
          */
         this._unprocessedMessages = new Set();
 
