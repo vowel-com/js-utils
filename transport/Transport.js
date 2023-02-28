@@ -5,6 +5,13 @@ import {
 } from './constants.js';
 
 /**
+ * [VOWEL] TODO push upstream
+ * @typedef {Object} CachedEventTuple
+ * @property {string} eventName - The name of the event.
+ * @property {Object[]} args - The event argument to be passed to the listener.
+ */
+
+/**
 * Stores the currnet transport backend that have to be used. Also implements
 * request/response mechanism.
 */
@@ -45,7 +52,7 @@ export default class Transport {
          * processed by any listener. They are later passed on every new
          * listener until they are processed.
          *
-         * @type {Set<Object>}
+         * @type {Set<CachedEventTuple>}
          */
         this._unprocessedMessages = new Set();
 
@@ -130,7 +137,8 @@ export default class Transport {
         }
 
         if (!isProcessed) {
-            this._unprocessedMessages.add(args);
+            // [VOWEL] store eventName to avoid errors
+            this._unprocessedMessages.add({ eventName, args });
         }
 
         return isProcessed;
@@ -155,8 +163,9 @@ export default class Transport {
 
         listenersForEvent.add(listener);
 
-        this._unprocessedMessages.forEach(args => {
-            if (listener(...args)) {
+        // [VOWEL] Use the eventName to call only the listeners which registered for that specific event.
+        this._unprocessedMessages.forEach(({ eventName: unprocessedEventName, args }) => {
+            if (unprocessedEventName === eventName && listener(...args)) {
                 this._unprocessedMessages.delete(args);
             }
         });
